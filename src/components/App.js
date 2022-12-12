@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import { GET_RACE_DATA_QUERY, GRAPHQL_API } from '../queries/queries';
 import axios from 'axios';
-// import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,7 +16,7 @@ class App extends React.Component {
     try{
       const queryResult = await axios.post(GRAPHQL_API, {
         query: GET_RACE_DATA_QUERY,
-        headers: {cookie: process.env.COOKIE, "Content-Type":"application/json", "x-developer-secret":process.env.ZED_API_KEY},
+        headers: {"Content-Type":"application/json", "x-developer-secret":process.env.REACT_APP_ZED_API_KEY},
         variables: {
           "first": 100,
           "before": null,
@@ -30,6 +29,7 @@ class App extends React.Component {
           }
         }
       });
+      console.log('key: ', process.env.REACT_APP_ZED_API_KEY);
       console.log('Data: ', queryResult.data);
       const raceResult = queryResult.data.data.get_race_results.edges;
       console.log('raceResult:', raceResult);
