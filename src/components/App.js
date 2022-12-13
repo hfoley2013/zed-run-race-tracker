@@ -16,12 +16,15 @@ class App extends React.Component {
     try{
       const queryResult = await axios.post(GRAPHQL_API, {
         query: GET_RACE_DATA_QUERY,
-        headers: {'Content-Type':'application/json', Authorization: process.env.REACT_APP_ZED_API_KEY},
+        headers: {
+          Accept:'application/json',
+          Authorization: `Bearer ${process.env.REACT_APP_ZED_API_KEY}`
+        },
         variables: {
           "first": 100,
           "before": null,
           "input": {
-            "only_my_racehorses": false,
+            "only_my_racehorses": true,
             "distance": {
               "from": 1000,
               "to": 2600
@@ -29,7 +32,7 @@ class App extends React.Component {
           }
         }
       });
-      console.log('Data: ', queryResult.data);
+      console.log(queryResult);
       const raceResult = queryResult.data.data.get_race_results.edges;
       console.log('raceResult:', raceResult);
       this.setState({races: raceResult});
